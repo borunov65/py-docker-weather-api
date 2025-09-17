@@ -3,11 +3,11 @@ LABEL maintainer="borunov65@gmail.com"
 
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR app/
+WORKDIR /app
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY app/ .
 
-CMD ["python", "app/main.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "main.py"]

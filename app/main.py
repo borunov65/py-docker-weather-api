@@ -1,14 +1,15 @@
 import os
+import sys
 import requests
 
 
-API_KEY = os.getenv("WEATHER_API_KEY")
+API_KEY = os.getenv("API_KEY")
 CITY = "Paris"
 WEATHER_API_URL = "http://api.weatherapi.com/v1/current.json"
 
 if not API_KEY:
     raise ValueError(
-        "WEATHER_API_KEY not found in environment variables!"
+        "API_KEY not found in environment variables!"
     )
 
 
@@ -20,7 +21,11 @@ def get_weather() -> None:
         "aqi": "no"
     }
     response = requests.get(WEATHER_API_URL, params=params)
-    response.raise_for_status()
+    if response.status_code != 200:
+        print(
+            f"Error: Weather API returned {response.status_code}: {response.text}"
+        )
+        sys.exit(1)
 
     data = response.json()
     print(
